@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Currículo</title>
+    <style>
+        
+        .imagem {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            display: block;
+            margin: auto;
+        }
+        
+    </style>
+
+</head>
+<body>
+    <table>
+        <hr>
+        <tr>
+            <td rowspan="20" >
+                <img src="user.png" alt="Foto" class="imagem">
+            </td>
+            <td>
+                <hr width="175%">
+                <h1><u>Dados Pessoais</u></h1>
+            </td>
+        </tr>
+
+        <tr>
+            <td><strong>Nome:</strong> Gil Eduardo</td>
+        </tr>
+
+        <tr>
+            <td><strong>Data de Nascimento:</strong> 01/01/2001</td>
+            <td><strong>Est. Civil:</strong> Solteiro</td>
+        </tr>
+
+        <tr>
+            <td><strong>Endereço:</strong> Avenida Oswald de Andrade</td>
+            <td><strong>Número:</strong>: 903</td>
+        </tr>
+
+        <tr>
+            <td><strong>Bairro:</strong> Porto Fino</td>
+        </tr>
+
+        <tr>
+            <td><strong>CEP:</strong> 83.255-000</td>
+            <td><strong>Bairro:</strong> Porto Fino</td>
+        </tr>
+
+        <tr>
+            <td><strong>CPF:</strong> 090.090.090-90</td>
+        </tr>    
+
+        <td><hr width="175%"></td>
+
+    </table>
+
+        <hr>
+        
+            <tr>
+                <td><h2>Qualificação Profissional</h2></td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li><strong>Áreas de Atuação:</strong> linguagens de programação - engenharia de software</li>
+                        <hr>
+                        <li><strong>Tecnologias:</strong> linguagem java - linguagem C e C++</li>
+                    </ul>
+                </td>
+            </tr>
+        
+        <hr>
+        
+        <tr>
+            <td><h2>Formação Acadêmica</h2></td>
+        </tr>
+        <tr>
+            <td>
+                <ol>
+
+                    <li><strong>Graduação Máxima:</strong> doutorado em informática</li>
+
+                    <ul>
+                        <li><u>Instituição:</u> PUCPR</li>
+                        <li><u>Data de Início:</u> 01/02/2013</li>
+                        <li><u>Data de Conclusão:</u> 15/10/2017</li>
+                    </ul>
+
+                    <hr>
+
+                    <li><strong>Graduação:</strong> engenharia de computação</li>
+
+                    <ul>
+                        <li><u>Instituição:</u> PUCPR</li>
+                        <li><u>Data de Início:</u> 01/02/20</li>
+                        <li><u>Data de Conclusão:</u> 31/12/2005</li>
+                    </ul>
+
+                </ol>
+        
+                
+            </td>
+        </tr>
+        
+        <hr>
+        
+            <tr>
+                <td><h2>FORMULÁRIO DE CONTATO</h2></td>
+            </tr>
+            <tr>
+                <td>
+                    <form action="http://localhost:3000/curriculo" method="POST">
+                        <label><strong>Assunto:</strong></label>
+                        <input type="radio" id="duvida" name="opcao" value="duvida">
+                        <label for="duvida">Duvidas</label>
+                        <input type="radio" id="mais" name="opcao" value="mais">
+                        <label for="mais">Mais informações</label>
+                        <input type="radio" id="contratar" name="opcao" value="contratar">
+                        <label for="contratar">Contratação</label><br><br>
+
+                        <label for="nome"><strong>Nome:</strong></label>
+                        <input type="text" id="nome" name="nome" required><br>
+                        <br>
+                        <label for="email"><strong>Email:</strong></label>
+                        <input type="email" id="email" name="email" required><br>
+
+                        <hr>
+
+                        <input type="submit" value="Enviar">
+
+                    </form>
+                </td>
+            </tr>
+    </main>
+</body>
+</html>
