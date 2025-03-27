@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Memória</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            background: linear-gradient(to right, #003366, #0066cc);
+            color: white;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        h1 img {
+            width: 40px;
+            height: 40px;
+        }
+        #themeSelection {
+            margin: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #gameBoard {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .card {
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .card img {
+    width: 80px;
+    height: 80px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+}
+.card.revealed img, .card.matched img {
+    opacity: 1;
+    visibility: visible;
+}
+    </style>
+</head>
+<body>
+    <h1><img src="memory_icon.png" alt="Ícone"> JOGO DA MEMÓRIA</h1>
+    <div id="themeSelection">
+        <button onclick="startGame('carro')"><img src="carro.png" width="30"> Carros</button>
+        <button onclick="startGame('moto')"><img src="moto.png" width="30"> Motos</button>
+        <button onclick="startGame('jetski')"><img src="jetski.png" width="30"> Jet Skis</button>
+    </div>
+    <div id="gameBoard"></div>
+    <script>
+        let firstCard = null;
+        let secondCard = null;
+        let lockBoard = false;
+
+        function startGame(theme) {
+    let images = [];
+    for (let i = 1; i <= 4; i++) {
+        let imageName = `${theme}0${i}.png`; 
+        images.push(imageName, imageName);
+    }
+    images.sort(() => Math.random() - 0.5);
+
+    let gameBoard = document.getElementById("gameBoard");
+    gameBoard.innerHTML = "";
+
+    for (let i = 0; i < images.length; i++) {
+        let card = document.createElement("div");
+        card.classList.add("card");
+        card.dataset.value = images[i];
+
+        let img = document.createElement("img");
+        img.src = images[i]; 
+        img.alt = "Imagem do jogo da memória";
+
+        card.appendChild(img);
+        card.onclick = function () { flipCard(card); };
+        gameBoard.appendChild(card);
+    }
+}
+
+
+        function flipCard(card) {
+            if (lockBoard || card.classList.contains("revealed")) return;
+            
+            card.classList.add("revealed");
+            let img = card.querySelector("img");
+            img.style.display = "block";
+            
+            if (!firstCard) {
+                firstCard = card;
+            } else {
+                secondCard = card;
+                lockBoard = true;
+                
+                if (firstCard.dataset.value === secondCard.dataset.value) {
+                    firstCard.classList.add("matched");
+                    secondCard.classList.add("matched");
+                    resetBoard();
+                } else {
+                    setTimeout(() => {
+                        firstCard.classList.remove("revealed");
+                        secondCard.classList.remove("revealed");
+                        resetBoard();
+                    }, 1000);
+                }
+            }
+        }
+
+        function resetBoard() {
+            firstCard = null;
+            secondCard = null;
+            lockBoard = false;
+        }
+    </script>
+</body>
+</html>
