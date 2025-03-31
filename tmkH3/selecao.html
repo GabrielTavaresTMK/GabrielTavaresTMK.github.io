@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolha um Tema</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            background: linear-gradient(to right, #003366, #0066cc);
+            color: white;
+            padding: 10px;
+        }
+        #themeSelection {
+            margin-top: 50px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escolha um Tema</h1>
+    <div id="themeSelection">
+        <button onclick="selectTheme('carro')"><img src="carro.png" width="30">  Carros</button>
+        <button onclick="selectTheme('moto')"><img src="moto.png" width="30">  Motos</button>
+        <button onclick="selectTheme('jetski')"><img src="jetski.png" width="30">  Jet Skis</button>
+    </div>
+
+    <script>
+        function selectTheme(theme) {
+            localStorage.setItem("selectedTheme", theme);
+            window.location.href = "memoria.html?theme=" + theme;
+        }
+    </script>
+</body>
+</html>
