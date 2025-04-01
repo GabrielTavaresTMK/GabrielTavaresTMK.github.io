@@ -1,52 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seleção de Tema</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            background: linear-gradient(to right, #003366, #0066cc);
-            color: white;
-            padding: 10px;
-        }
-        #selecaoTema {
-            margin: 20px;
-        }
-        button {
-            font-size: 18px;
-            padding: 10px;
-            margin: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        img {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seleção de Tema</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-    <h1>Escolha um Tema</h1>
-    <div id="selecaoTema">
-        <button onclick="selecionarTema('carro')"><img src="carro.png"> Carros</button>
-        <button onclick="selecionarTema('moto')"><img src="moto.png"> Motos</button>
-        <button onclick="selecionarTema('jetski')"><img src="jetski.png"> Jet Skis</button>
-    </div>
-
-    <script>
-        function selecionarTema(tema) {
-            localStorage.setItem("temaSelecionado", tema);
-            window.location.href = "memoria.html";
-        }
-    </script>
+  <header>
+    <img src="memory_icon.png" alt="Logo">
+    <h1>Escolha seu Tema</h1>
+  </header>
+  
+  <div id="selecaoTema">
+    <button onclick="iniciarJogo('carro')">
+      <img src="carro.png" alt="Carro">
+    </button>
+    <button onclick="iniciarJogo('moto')">
+      <img src="moto.png" alt="Moto">
+    </button>
+    <button onclick="iniciarJogo('jetski')">
+      <img src="jetski.png" alt="Jet Ski">
+    </button>
+  </div>
+  
+  <footer>
+    <p>Precisava ter algo aqui?</p>
+  </footer>
 </body>
 </html>
