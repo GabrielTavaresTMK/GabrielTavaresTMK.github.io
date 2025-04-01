@@ -3,72 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home
-    </title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background-color: #eef2f3;
-        }
-        .container {
-            padding: 50px;
-        }
-        h1 {
-            color: #333;
-        }
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            text-decoration: none;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .btn:hover {
-            background-color: #0056b3;
-        }
-        .list-container {
-            margin-top: 20px;
-        }
-        select {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-    </style>
+    <title>Página Pessoal</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>GABRIEL TAVARES BRASIL</h1>
-        <h2>INFO 23 </h2>
-        <p>Selecione uma atividade para acessar:</p>
-        <div class="list-container">
-            <select id="activityList" onchange="navigate()">
-                <option></option>
-                <option value="https://gabrieltavarestmk.github.io/tmkH/curriculo.html">ATIVIDADE 1</option>
-                <option value="https://gabrieltavarestmk.github.io/tmkH2/home.html">ATIVIDADE 2</option>
-                <option value="https://gabrieltavarestmk.github.io/tmkH3/selecao.html">ATIVIDADE 3</option>
-                <option value="">ATIVIDADE 4</option>
-            </select>
-        </div>
-    </div>
+    <header>
+        <button id="menu-btn">☰</button>
+        <h1>Gabriel Tavares Brasil</h1>
+    </header>
+    
+    <nav id="menu">
+        <li><strong>Pessoal</strong></li>
+        <li><a href="#" class="menu-btn">Hobbies</a></li>
+        <li><a href="#" class="menu-btn">Filmes e Músicas</a></li>
 
+        <li><strong>Acadêmico</strong></li>
+        <li><a href="https://gabrieltavarestmk.github.io/tmkH/curriculo.html" class="menu-btn">Atividades 1</a></li>
+        <li><a href="https://gabrieltavarestmk.github.io/tmkH2/home.html" class="menu-btn">Atividades 2</a></li>
+        <li><a href="https://gabrieltavarestmk.github.io/tmkH3/selecao.html" class="menu-btn">Atividades 3</a></li>
+    </nav>
+    
+    <main>
+        <section class="info">
+            <p><strong>Brasil / Matinhos-PR</strong></p>
+            <p>gabrieltavaresbrasil829@gmail.com</p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>@ Todos os direitos reservados - Gabriel Tavares Brasil</p>
+    </footer>
+    
     <script>
-        function navigate() {
-            var select = document.getElementById("activityList");
-            var url = select.value;
-            if (url) {
-                window.location.href = url;
-            }
-        }
+        document.getElementById("menu-btn").addEventListener("click", function() {
+            document.getElementById("menu").classList.toggle("show");
+        });
     </script>
 </body>
 </html>
