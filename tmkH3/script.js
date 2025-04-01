@@ -1,72 +1,72 @@
-let firstCard = null;
-let secondCard = null;
+let primeiraCarta = null;
+let segundaCarta = null;
 let lockBoard = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    let theme = localStorage.getItem("selectedTheme");
-    if (!theme) {
+    let tema = localStorage.getItem("temaSelecionado");
+    if (!tema) {
         alert("Nenhum tema selecionado! Voltando para a seleção.");
         window.location.href = "selecao.html";
         return;
     }
-    startGame(theme);
+    iniciarJogo(tema);
 });
 
-function startGame(theme) {
-    let images = [];
+function iniciarJogo(tema) {
+    let imagens = [];
     for (let i = 1; i <= 4; i++) {
-        images.push(`${theme}0${i}.png`, `${theme}0${i}.png`);
+        imagens.push(`${tema}0${i}.png`, `${tema}0${i}.png`);
     }
-    images.sort(() => Math.random() - 0.5);
+    imagens.sort(() => Math.random() - 0.5);
 
-    let gameBoard = document.getElementById("gameBoard");
-    gameBoard.innerHTML = "";
+    let tabuleiro = document.getElementById("tabuleiro");
+    tabuleiro.innerHTML = "";
 
-    for (let imgSrc of images) {
-        let card = document.createElement("div");
-        card.classList.add("card");
-        card.dataset.value = imgSrc;
+    for (let imgSrc of imagens) {
+        let carta = document.createElement("div");
+        carta.classList.add("carta");
+        carta.dataset.valor = imgSrc;
 
         let img = document.createElement("img");
-        img.src = imgSrc;  
-        card.appendChild(img);
+        img.src = imgSrc;
+        carta.appendChild(img);
 
-        card.onclick = function () { flipCard(card); };
-        gameBoard.appendChild(card);
+        carta.onclick = function () { virarCarta(carta); };
+        tabuleiro.appendChild(carta);
     }
 }
 
-function flipCard(card) {
-    if (lockBoard || card.classList.contains("revealed")) return;
+function virarCarta(carta) {
+    if (lockBoard || carta.classList.contains("virada")) return;
 
-    card.classList.add("revealed");
-    let img = card.querySelector("img");
+    carta.classList.add("virada");
+    let img = carta.querySelector("img");
     img.style.display = "block";
 
-    if (!firstCard) {
-        firstCard = card;
+    if (!primeiraCarta) {
+        primeiraCarta = carta;
     } else {
-        secondCard = card;
+        segundaCarta = carta;
         lockBoard = true;
 
-        if (firstCard.dataset.value === secondCard.dataset.value) {
-            firstCard.classList.add("matched");
-            secondCard.classList.add("matched");
-            resetBoard();
+        if (primeiraCarta.dataset.valor === segundaCarta.dataset.valor) {
+            primeiraCarta.classList.add("pares");
+            segundaCarta.classList.add("pares");
+            resetarJogo();
         } else {
             setTimeout(() => {
-                firstCard.classList.remove("revealed");
-                secondCard.classList.remove("revealed");
-                firstCard.querySelector("img").style.display = "none";
-                secondCard.querySelector("img").style.display = "none";
-                resetBoard();
+                primeiraCarta.classList.remove("virada");
+                segundaCarta.classList.remove("virada");
+                primeiraCarta.querySelector("img").style.display = "none";
+                segundaCarta.querySelector("img").style.display = "none";
+                resetarJogo();
             }, 1000);
         }
     }
 }
 
-function resetBoard() {
-    firstCard = null;
-    secondCard = null;
+function resetarJogo() {
+    primeiraCarta = null;
+    segundaCarta = null;
     lockBoard = false;
 }

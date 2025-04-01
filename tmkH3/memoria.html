@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo da Memória</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,14 +15,14 @@
             color: white;
             padding: 10px;
         }
-        #gameBoard {
+        #tabuleiro {
             display: grid;
             grid-template-columns: repeat(4, 100px);
             gap: 10px;
             justify-content: center;
             margin-top: 20px;
         }
-        .card {
+        .carta {
             width: 100px;
             height: 100px;
             background-color: #fff;
@@ -32,22 +30,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 24px;
             cursor: pointer;
         }
-        .card img {
+        .carta img {
             width: 80px;
             height: 80px;
             display: none;
         }
-        .card.revealed img, .card.matched img {
+        .carta.pares img {
             display: block;
         }
     </style>
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <h1>Jogo da Memória</h1>
-    <div id="gameBoard"></div>
-
-    <script src="script.js"></script>
+    <h1>JOGO DA MEMÓRIA</h1>
+    <div id="tabuleiro"></div>
 </body>
 </html>

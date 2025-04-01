@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escolha um Tema</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Seleção de Tema</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,30 +15,37 @@
             color: white;
             padding: 10px;
         }
-        #themeSelection {
-            margin-top: 50px;
+        #selecaoTema {
+            margin: 20px;
         }
         button {
             font-size: 18px;
             padding: 10px;
-            margin: 10px;
+            margin: 5px;
             cursor: pointer;
-            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        img {
+            width: 30px;
+            height: 30px;
         }
     </style>
 </head>
 <body>
     <h1>Escolha um Tema</h1>
-    <div id="themeSelection">
-        <button onclick="selectTheme('carro')"><img src="carro.png" width="30">  Carros</button>
-        <button onclick="selectTheme('moto')"><img src="moto.png" width="30">  Motos</button>
-        <button onclick="selectTheme('jetski')"><img src="jetski.png" width="30">  Jet Skis</button>
+    <div id="selecaoTema">
+        <button onclick="selecionarTema('carro')"><img src="carro.png"> Carros</button>
+        <button onclick="selecionarTema('moto')"><img src="moto.png"> Motos</button>
+        <button onclick="selecionarTema('jetski')"><img src="jetski.png"> Jet Skis</button>
     </div>
 
     <script>
-        function selectTheme(theme) {
-            localStorage.setItem("selectedTheme", theme);
-            window.location.href = "memoria.html?theme=" + theme;
+        function selecionarTema(tema) {
+            localStorage.setItem("temaSelecionado", tema);
+            window.location.href = "memoria.html";
         }
     </script>
 </body>
