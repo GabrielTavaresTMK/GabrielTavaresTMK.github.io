@@ -1,95 +1,99 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: rgb(105, 50, 50);
-    color: white;
-    margin: 0;
-    padding: 0;
-  }
-  
-  header {
-    text-align: center;
-    padding: 20px 0;
-  }
-  
-  .animado {
-    font-size: 28px;
-    animation: corAnimada 4s infinite;
-  }
-  
-  @keyframes corAnimada {
-    0%   { color: red; }
-    25%  { color: yellow; }
-    50%  { color: lime; }
-    75%  { color: cyan; }
-    100% { color: red; }
-  }
-  
-  .tabela {
-    width: 90%;
-    max-width: 900px;
-    margin: 30px auto;
-    border-collapse: collapse;
-  }
-  
-  .linha {
-    display: flex;
-  }
-  
-  .linha:nth-child(even) {
-    background-color: rgb(126, 0, 0);
-  }
-  
-  .linha:nth-child(odd) {
-    background-color: rgb(97, 197, 255);
-  }
-  
-  
-  
-  .celula {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .imagens img {
-    margin: 0 5px;
-  }
-  
-  footer {
-    position: relative;
-    height: 60px;
-    margin-top: 50px;
-    overflow: hidden;
-  }
-  
-  .aviso {
-    position: absolute;
-    bottom: 0;
-  }
-  
-  .esquerdo {
-    left: -50%;
-    animation: moverEsquerda 5s infinite;
-  }
-  
-  .direito {
-    right: -50%;
-    animation: moverDireita 5s infinite;
-  }
-  
-  @keyframes moverEsquerda {
-    0%   { left: 0; transform: rotate(0deg); }
-    50%  { left: 50%; transform: translateX(-100%) rotate(360deg); }
-    100% { left: 0; transform: rotate(0deg); }
-  }
-  
-  @keyframes moverDireita {
-    0%   { right: 0%; transform: rotate(270deg); }
-    50%  { right: 50%; transform: translateX(100%);}
-    100% { right: 0%; } 
-  }
-  
-  input:focus {
-    outline: none;
-  }
-  
+  font-family: Arial, sans-serif;
+  background-color: rgb(105, 50, 50);
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.animado {
+  font-size: 28px;
+  animation: corAnimada 4s infinite;
+}
+
+@keyframes corAnimada {
+  0%   { color: red; }
+  25%  { color: yellow; }
+  50%  { color: lime; }
+  75%  { color: cyan; }
+  100% { color: red; }
+}
+
+.tabela {
+  width: 90%;
+  max-width: 900px;
+  margin: 30px auto;
+  border-collapse: collapse;
+  display: table;
+}
+
+.linha {
+  display: table-row;
+}
+
+
+.branco {
+  background-color: white;
+}
+
+.azul {
+  background-color: rgb(0, 0, 201);
+}
+.cabecalho {
+  font-weight: bold;
+  background-color: #333;
+  color: white;
+}
+
+.celula {
+  display: table-cell;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #fff;
+}
+
+.imagens img {
+  margin: 0 5px;
+}
+
+footer {
+  position: relative;
+  height: 60px;
+  margin-top: 50px;
+  overflow: hidden;
+}
+
+.aviso {
+  position: absolute;
+  bottom: 0;
+}
+
+.esquerdo {
+  left: -50%;
+  animation: moverEsquerda 5s infinite;
+}
+
+.direito {
+  right: -50%;
+  animation: moverDireita 5s infinite;
+}
+
+@keyframes moverEsquerda {
+  0%   { left: 0%; transform: rotate(90deg); }
+  50%  { left: 50%; transform: rotate(270deg)}
+  100% { left: 0%; transform: rotate(90deg)} 
+}
+
+@keyframes moverDireita {
+  0%   { right: 0%; transform: rotate(270deg); }
+  50%  { right: 50%; transform: rotate(90deg)}
+  100% { right: 0%; transform: rotate(270deg)} 
+}
+
+input:focus {
+  outline: none;
+}
