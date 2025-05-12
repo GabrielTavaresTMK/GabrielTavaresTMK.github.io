@@ -1,89 +1,135 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body, html {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-  
-  #game {
-    width: 100vw;
-    height: 100vh;
-    background-image: url('background.png');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-  }
-  
-  #hud {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100px;
-    height: 160px;
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    border-radius: 10px;
-    z-index: 10;
-  }
-  
-  .icon {
-    width: 32px;
-    height: 32px;
-  }
-  
-  #timer, #life {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  #ship {
-    position: absolute;
-    bottom: 20px;
-    width: 100px;
-    height: 100px;
-    background-image: url('nave.png');
-    background-size: cover;
-    z-index: 20;
-  }
-  
-  .missile {
-    position: absolute;
-    width: 6px;
-    height: 20px;
-    background-image: url('missil.png');
-    background-size: cover;
-    position: absolute;
-    z-index: 5;
-  }
-  
-  .alien {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background-image: url('alien.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    z-index: 5;
-  }
-  
-  #pause-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 36px;
-    display: none;
-    z-index: 20;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', monospace;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('background.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* HUD - Painel de informações */
+#hud {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #0ff;
+  font-size: 20px;
+  text-shadow: 0 0 5px #0ff;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 2px solid #0ff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px #0ff, 
+              inset 0 0 10px rgba(0, 255, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+#hud div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Ícones do HUD */
+.hud-icon {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 0 3px #0ff);
+}
+
+/* Nave do jogador */
+#ship {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  background-image: url('nave.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: translateX(-50%);
+  z-index: 8;
+  transition: left 0.1s ease-out;
+}
+
+/* Míssil do jogador */
+.missile {
+  position: absolute;
+  width: 8px;
+  height: 30px;
+  background-image: url('missil.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 5;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: left 0.1s ease-out;
+}
+
+/* Alienígenas */
+.alien {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background-image: url('alien.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 5;
+  filter: drop-shadow(0 0 5px #f00);
+}
+
+/* Tiro dos alienígenas */
+.alien-bullet {
+  position: absolute;
+  width: 8px;
+  height: 20px;
+  background: linear-gradient(to bottom, #f00, #ff0);
+  border-radius: 4px;
+  box-shadow: 0 0 5px #f00;
+  z-index: 5;
+}
+
+/* Mensagem de pausa */
+#pause-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #0ff;
+  font-size: 36px;
+  display: none;
+  z-index: 20;
+  text-align: center;
+  text-shadow: 0 0 10px #0ff;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 20px 40px;
+  border: 2px solid #0ff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+#pause-message span {
+  display: block;
+  font-size: 16px;
+  margin-top: 10px;
+}

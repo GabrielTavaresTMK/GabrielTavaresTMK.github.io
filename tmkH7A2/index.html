@@ -9,15 +9,12 @@
 <body>
   <div id="game">
     <div id="hud">
-      <img src="clock.png" class="icon" />
-      <div id="timer">00:00</div>
-      <img src="nave.png" class="icon" />
-      <div id="life">3</div>
-      <img src="alien.png" class="icon" />
-      <div id="alien-counter">0</div>
+      <div id="timer"><img src="clock.png" class="hud-icon"> 00:00:00</div>
+      <div id="life-container"><img src="nave.png" class="hud-icon"> LIFE: <span id="life">3</span></div>
+      <div id="alien-container"><img src="alien.png" class="hud-icon"> ALIEN: <span id="alien-counter">0</span></div>
     </div>
     <div id="ship"></div>
-    <div id="pause-message">Jogo Pausado</div>
+    <div id="pause-message">JOGO PAUSADO<span>Pressione P para continuar</span></div>
   </div>
   <script src="script.js"></script>
 </body>

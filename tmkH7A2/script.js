@@ -1,212 +1,218 @@
-// Referências aos elementos
-let ship = document.getElementById('ship');
-let timerEl = document.getElementById('timer');
-let lifeEl = document.getElementById('life');
-let pauseMsg = document.getElementById('pause-message');
-let alienCounterEl = document.getElementById('alien-counter');
-let gameArea = document.getElementById('game');
+// Elementos do jogo
+const ship = document.getElementById('ship');
+const timerEl = document.getElementById('timer');
+const lifeEl = document.getElementById('life');
+const pauseMsg = document.getElementById('pause-message');
+const alienCounterEl = document.getElementById('alien-counter');
+const gameArea = document.getElementById('game');
 
-let shipX = window.innerWidth / 2 - 30;
+// Variáveis do jogo
+let shipX = window.innerWidth / 2;
 let gamePaused = false;
 let time = 0;
 let interval;
 let alienCounter = 0;
-let activeMissiles = [];
-let maxMissiles = 2;
+let activeMissile = null;
+let lives = 3;
+let canShoot = true;
 
+// Atualiza o timer
 function updateTimer() {
   time++;
-  let minutes = String(Math.floor(time / 60)).padStart(2, '0');
-  let seconds = String(time % 60).padStart(2, '0');
-  timerEl.textContent = `${minutes}:${seconds}`;
+  const hours = String(Math.floor(time / 3600)).padStart(2, '0');
+  const minutes = String(Math.floor((time % 3600) / 60)).padStart(2, '0');
+  const seconds = String(time % 60).padStart(2, '0');
+  timerEl.textContent = `${hours}:${minutes}:${seconds}`;
 }
 
+// Pausa/despausa o jogo
 function togglePause() {
   gamePaused = !gamePaused;
   pauseMsg.style.display = gamePaused ? 'block' : 'none';
+  
   if (gamePaused) {
     clearInterval(interval);
+    document.querySelectorAll('.alien-bullet').forEach(bullet => {
+      bullet.style.animationPlayState = 'paused';
+    });
   } else {
     interval = setInterval(updateTimer, 1000);
+    document.querySelectorAll('.alien-bullet').forEach(bullet => {
+      bullet.style.animationPlayState = 'running';
+    });
   }
 }
 
+// Move a nave
 function moveShip(direction) {
   if (gamePaused) return;
-  let hudWidth = document.getElementById('hud').offsetWidth;
-  shipX += direction * 10;
-  if (shipX < hudWidth) shipX = hudWidth;
-  if (shipX > window.innerWidth - 60) shipX = window.innerWidth - 60;
+  
+  shipX += direction * 15;
+  shipX = Math.max(30, Math.min(shipX, window.innerWidth - 30));
   ship.style.left = `${shipX}px`;
-  updateMissilePositions();
-}
-
-function updateMissilePositions() {
-  const missileLeft = document.getElementById('missile-left');
-  const missileRight = document.getElementById('missile-right');
-  if (missileLeft) missileLeft.style.left = `${shipX}px`;
-  if (missileRight) missileRight.style.left = `${shipX + 50}px`;
-}
-
-function shootMissile() {
-  if (gamePaused) return;
-  if (activeMissiles.length >= maxMissiles) return;
-
-  // Remove os mísseis laterais
-  document.getElementById('missile-left')?.remove();
-  document.getElementById('missile-right')?.remove();
-
-  // Criar os dois mísseis centrais
-  let missile1 = document.createElement('div');
-  let missile2 = document.createElement('div');
-  missile1.className = 'missile';
-  missile2.className = 'missile';
-  missile1.style.left = `${shipX + 10}px`;
-  missile2.style.left = `${shipX + 40}px`;
-  missile1.style.bottom = '80px';
-  missile2.style.bottom = '80px';
-  gameArea.appendChild(missile1);
-  gameArea.appendChild(missile2);
-  activeMissiles.push(missile1, missile2);
-
-  // Movimentação
-  let missile1Done = false;
-  let missile2Done = false;
-
-  function checkRemoveAll() {
-    if (missile1Done && missile2Done) {
-      missile1.remove();
-      missile2.remove();
-      activeMissiles = [];
-      createSideMissiles();
-    }
+  
+  // Move o míssil junto com a nave
+  if (activeMissile) {
+    activeMissile.style.left = `${shipX}px`;
   }
+}
 
-  let move1 = setInterval(() => {
+// Dispara um míssil
+function shootMissile() {
+  if (gamePaused || !canShoot || activeMissile) return;
+  
+  canShoot = false;
+  activeMissile = document.createElement('div');
+  activeMissile.className = 'missile';
+  activeMissile.style.left = `${shipX}px`;
+  gameArea.appendChild(activeMissile);
+  
+  const missileInterval = setInterval(() => {
     if (gamePaused) return;
-    let y = parseInt(missile1.style.bottom) + 10;
-    if (y >= window.innerHeight) {
-      clearInterval(move1);
-      missile1Done = true;
-      checkRemoveAll();
-    } else {
-      missile1.style.bottom = `${y}px`;
-      checkAlienCollision(missile1, move1, () => {
-        missile1Done = true;
-        checkRemoveAll();
-      });
+    
+    const currentBottom = parseInt(activeMissile.style.bottom) || 60;
+    const newBottom = currentBottom + 10;
+    activeMissile.style.bottom = `${newBottom}px`;
+    
+    // Verifica colisão com aliens
+    const aliens = document.querySelectorAll('.alien');
+    let hit = false;
+    
+    aliens.forEach(alien => {
+      const alienRect = alien.getBoundingClientRect();
+      const missileRect = activeMissile.getBoundingClientRect();
+      
+      if (
+        missileRect.left < alienRect.right &&
+        missileRect.right > alienRect.left &&
+        missileRect.top < alienRect.bottom &&
+        missileRect.bottom > alienRect.top
+      ) {
+        alien.remove();
+        hit = true;
+        alienCounter++;
+        alienCounterEl.textContent = alienCounter;
+      }
+    });
+    
+    // Verifica se saiu da tela ou acertou um alien
+    if (newBottom > window.innerHeight || hit) {
+      clearInterval(missileInterval);
+      activeMissile.remove();
+      activeMissile = null;
+      canShoot = true;
     }
   }, 30);
-
-  let move2 = setInterval(() => {
-    if (gamePaused) return;
-    let y = parseInt(missile2.style.bottom) + 10;
-    if (y >= window.innerHeight) {
-      clearInterval(move2);
-      missile2Done = true;
-      checkRemoveAll();
-    } else {
-      missile2.style.bottom = `${y}px`;
-      checkAlienCollision(missile2, move2, () => {
-        missile2Done = true;
-        checkRemoveAll();
-      });
-    }
-  }, 30);
 }
 
-function checkAlienCollision(missile, moveInterval, callback) {
-  document.querySelectorAll('.alien').forEach(alien => {
-    let alienRect = alien.getBoundingClientRect();
-    let missileRect = missile.getBoundingClientRect();
-    if (
-      missileRect.left < alienRect.right &&
-      missileRect.right > alienRect.left &&
-      missileRect.top < alienRect.bottom &&
-      missileRect.bottom > alienRect.top
-    ) {
-      alien.remove();
-      missile.remove();
-      clearInterval(moveInterval);
-      alienCounter++;
-      alienCounterEl.textContent = alienCounter;
-      callback();
-    }
-  });
-}
-
-function createSideMissiles() {
-  let missileLeft = document.createElement('div');
-  missileLeft.id = 'missile-left';
-  missileLeft.className = 'side-missile';
-  missileLeft.style.left = `${shipX}px`;
-  missileLeft.style.bottom = '80px';
-  gameArea.appendChild(missileLeft);
-
-  let missileRight = document.createElement('div');
-  missileRight.id = 'missile-right';
-  missileRight.className = 'side-missile';
-  missileRight.style.left = `${shipX + 50}px`;
-  missileRight.style.bottom = '80px';
-  gameArea.appendChild(missileRight);
-}
-
+// Cria os aliens
 function spawnAliens() {
-  let startX = document.getElementById('hud').offsetWidth + 40;
-  let cols = 8;
-  let rows = 3;
-  let spacing = 80;
-
+  const cols = 8;
+  const rows = 3;
+  const spacing = 70;
+  const startX = (window.innerWidth - (cols * spacing)) / 2;
+  
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
-      let alien = document.createElement('div');
+      const alien = document.createElement('div');
       alien.className = 'alien';
       alien.style.left = `${startX + col * spacing}px`;
       alien.style.top = `${50 + row * spacing}px`;
       gameArea.appendChild(alien);
     }
   }
+  
   moveAliens();
   alienShootLoop();
 }
 
+// Move os aliens
 function moveAliens() {
   let direction = 1;
-  setInterval(() => {
+  const moveInterval = setInterval(() => {
     if (gamePaused) return;
-    document.querySelectorAll('.alien').forEach(alien => {
-      let currentLeft = parseInt(alien.style.left);
-      alien.style.left = `${currentLeft + direction * 10}px`;
+    
+    const aliens = document.querySelectorAll('.alien');
+    if (aliens.length === 0) {
+      clearInterval(moveInterval);
+      return;
+    }
+    
+    let shouldChangeDirection = false;
+    
+    aliens.forEach(alien => {
+      const currentLeft = parseInt(alien.style.left);
+      const newLeft = currentLeft + direction * 5;
+      alien.style.left = `${newLeft}px`;
+      
+      if (newLeft <= 20 || newLeft >= window.innerWidth - 60) {
+        shouldChangeDirection = true;
+      }
     });
-    direction *= -1;
-  }, 1000);
+    
+    if (shouldChangeDirection) {
+      direction *= -1;
+      aliens.forEach(alien => {
+        const currentTop = parseInt(alien.style.top);
+        alien.style.top = `${currentTop + 20}px`;
+      });
+    }
+  }, 500);
 }
 
+// Aliens atiram
 function alienShootLoop() {
   setInterval(() => {
     if (gamePaused) return;
-    let aliens = document.querySelectorAll('.alien');
+    
+    const aliens = document.querySelectorAll('.alien');
     if (aliens.length === 0) return;
-    let alien = aliens[Math.floor(Math.random() * aliens.length)];
-    let bullet = document.createElement('div');
+    
+    const shooter = aliens[Math.floor(Math.random() * aliens.length)];
+    const bullet = document.createElement('div');
     bullet.className = 'alien-bullet';
-    bullet.style.left = alien.style.left;
-    bullet.style.top = alien.style.top;
+    bullet.style.left = `${parseInt(shooter.style.left) + 20}px`;
+    bullet.style.top = `${parseInt(shooter.style.top) + 40}px`;
     gameArea.appendChild(bullet);
-
-    let move = setInterval(() => {
+    
+    const bulletInterval = setInterval(() => {
       if (gamePaused) return;
-      let y = parseInt(bullet.style.top) + 5;
-      if (y > window.innerHeight) {
+      
+      const currentTop = parseInt(bullet.style.top);
+      const newTop = currentTop + 8;
+      bullet.style.top = `${newTop}px`;
+      
+      // Verifica colisão com a nave
+      const shipRect = ship.getBoundingClientRect();
+      const bulletRect = bullet.getBoundingClientRect();
+      
+      if (
+        bulletRect.left < shipRect.right &&
+        bulletRect.right > shipRect.left &&
+        bulletRect.top < shipRect.bottom &&
+        bulletRect.bottom > shipRect.top
+      ) {
+        clearInterval(bulletInterval);
         bullet.remove();
-        clearInterval(move);
-      } else {
-        bullet.style.top = `${y}px`;
+        lives--;
+        lifeEl.textContent = lives;
+        
+        if (lives <= 0) {
+          alert(`Game Over! Seu score: ${alienCounter}`);
+          location.reload();
+        }
       }
-    }, 30);
-  }, 2000);
+      
+      // Verifica se saiu da tela
+      if (newTop > window.innerHeight) {
+        clearInterval(bulletInterval);
+        bullet.remove();
+      }
+    }, 50);
+  }, 1500);
 }
 
+// Event listeners
 document.addEventListener('keydown', (e) => {
   if (e.code === 'ArrowLeft') moveShip(-1);
   else if (e.code === 'ArrowRight') moveShip(1);
@@ -214,10 +220,15 @@ document.addEventListener('keydown', (e) => {
   else if (e.code === 'KeyP') togglePause();
 });
 
+// Inicia o jogo
 window.onload = () => {
   ship.style.left = `${shipX}px`;
-  ship.style.bottom = '100px';
   interval = setInterval(updateTimer, 1000);
   spawnAliens();
-  createSideMissiles();
 };
+
+// Redimensionamento da tela
+window.addEventListener('resize', () => {
+  shipX = Math.max(30, Math.min(shipX, window.innerWidth - 30));
+  ship.style.left = `${shipX}px`;
+});
