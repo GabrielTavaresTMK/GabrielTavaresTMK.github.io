@@ -1,3 +1,4 @@
+/* style.css (modificado) */
 * {
   margin: 0;
   padding: 0;
@@ -50,46 +51,73 @@ body, html {
 
 /* Ícones do HUD */
 .hud-icon {
-  width: 24px;
-  height: 24px;
+  width: 30px; /* Aumentado */
+  height: 30px; /* Aumentado */
   filter: drop-shadow(0 0 3px #0ff);
+}
+
+
+#ship {
+  width: 60px;
+  height: 60px;
+  background-image: url('nave.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  z-index: 8;
+  transform: rotate(0deg); /* Força a nave a ficar reta */
 }
 
 /* Nave do jogador */
 #ship {
   position: absolute;
   bottom: 50px;
-  left: 50%;
-  width: 60px;
-  height: 60px;
+  width: 80px; /* Aumentado */
+  height: 80px; /* Aumentado */
   background-image: url('nave.png');
   background-size: contain;
   background-repeat: no-repeat;
-  transform: translateX(-50%);
   z-index: 8;
-  transition: left 0.1s ease-out;
 }
 
-/* Míssil do jogador */
-.missile {
+.missile-fixed {
   position: absolute;
   width: 8px;
   height: 30px;
   background-image: url('missil.png');
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
   z-index: 5;
-  bottom: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: left 0.1s ease-out;
+  bottom: 5px;
+  transform: rotate(0deg); /* Garante que os mísseis ficarão retos */
+}
+
+.left-missile {
+  left: 5px;
+}
+
+.right-missile {
+  right: 5px;
+}
+
+/* Míssil disparado */
+.missile {
+  position: absolute;
+  width: 12px; /* Aumentado */
+  height: 40px; /* Aumentado */
+  background-image: url('missil.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 5;
 }
 
 /* Alienígenas */
 .alien {
   position: absolute;
-  width: 50px;
-  height: 50px;
+  width: 60px; /* Aumentado */
+  height: 60px; /* Aumentado */
   background-image: url('alien.png');
   background-size: contain;
   background-repeat: no-repeat;
@@ -100,8 +128,8 @@ body, html {
 /* Tiro dos alienígenas */
 .alien-bullet {
   position: absolute;
-  width: 8px;
-  height: 20px;
+  width: 10px; /* Aumentado */
+  height: 25px; /* Aumentado */
   background: linear-gradient(to bottom, #f00, #ff0);
   border-radius: 4px;
   box-shadow: 0 0 5px #f00;

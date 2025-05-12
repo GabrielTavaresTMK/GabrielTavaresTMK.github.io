@@ -5,6 +5,8 @@ const lifeEl = document.getElementById('life');
 const pauseMsg = document.getElementById('pause-message');
 const alienCounterEl = document.getElementById('alien-counter');
 const gameArea = document.getElementById('game');
+const leftMissile = document.querySelector('.left-missile');
+const rightMissile = document.querySelector('.right-missile');
 
 // Variáveis do jogo
 let shipX = window.innerWidth / 2;
@@ -12,9 +14,11 @@ let gamePaused = false;
 let time = 0;
 let interval;
 let alienCounter = 0;
-let activeMissile = null;
+let activeMissiles = [];
 let lives = 3;
-let canShoot = true;
+let availableMissiles = 2;
+let missileReloading = false;
+let nextMissileToShoot = 'left'; // Alterna entre 'left' e 'right'
 
 // Atualiza o timer
 function updateTimer() {
@@ -35,10 +39,16 @@ function togglePause() {
     document.querySelectorAll('.alien-bullet').forEach(bullet => {
       bullet.style.animationPlayState = 'paused';
     });
+    document.querySelectorAll('.missile').forEach(missile => {
+      missile.style.animationPlayState = 'paused';
+    });
   } else {
     interval = setInterval(updateTimer, 1000);
     document.querySelectorAll('.alien-bullet').forEach(bullet => {
       bullet.style.animationPlayState = 'running';
+    });
+    document.querySelectorAll('.missile').forEach(missile => {
+      missile.style.animationPlayState = 'running';
     });
   }
 }
@@ -50,29 +60,44 @@ function moveShip(direction) {
   shipX += direction * 15;
   shipX = Math.max(30, Math.min(shipX, window.innerWidth - 30));
   ship.style.left = `${shipX}px`;
-  
-  // Move o míssil junto com a nave
-  if (activeMissile) {
-    activeMissile.style.left = `${shipX}px`;
-  }
 }
 
-// Dispara um míssil
 function shootMissile() {
-  if (gamePaused || !canShoot || activeMissile) return;
+  if (gamePaused || availableMissiles <= 0) return;
   
-  canShoot = false;
-  activeMissile = document.createElement('div');
-  activeMissile.className = 'missile';
-  activeMissile.style.left = `${shipX}px`;
-  gameArea.appendChild(activeMissile);
+  const side = nextMissileToShoot;
+  availableMissiles--;
+  
+  // Esconde o míssil fixo que foi disparado
+  if (side === 'left') {
+    leftMissile.style.display = 'none';
+    nextMissileToShoot = 'right';
+  } else {
+    rightMissile.style.display = 'none';
+    nextMissileToShoot = 'left';
+  }
+  
+  const missile = document.createElement('div');
+  missile.className = 'missile';
+  missile.dataset.side = side;
+  
+  // Posiciona o míssil no lado correto
+  if (side === 'left') {
+    missile.style.left = `${shipX - 15}px`;
+  } else {
+    missile.style.left = `${shipX + 15}px`;
+  }
+  
+  missile.style.bottom = '110px';
+  gameArea.appendChild(missile);
+  activeMissiles.push({element: missile, side: side});
   
   const missileInterval = setInterval(() => {
     if (gamePaused) return;
     
-    const currentBottom = parseInt(activeMissile.style.bottom) || 60;
+    const currentBottom = parseInt(missile.style.bottom) || 110;
     const newBottom = currentBottom + 10;
-    activeMissile.style.bottom = `${newBottom}px`;
+    missile.style.bottom = `${newBottom}px`;
     
     // Verifica colisão com aliens
     const aliens = document.querySelectorAll('.alien');
@@ -80,7 +105,7 @@ function shootMissile() {
     
     aliens.forEach(alien => {
       const alienRect = alien.getBoundingClientRect();
-      const missileRect = activeMissile.getBoundingClientRect();
+      const missileRect = missile.getBoundingClientRect();
       
       if (
         missileRect.left < alienRect.right &&
@@ -98,11 +123,38 @@ function shootMissile() {
     // Verifica se saiu da tela ou acertou um alien
     if (newBottom > window.innerHeight || hit) {
       clearInterval(missileInterval);
-      activeMissile.remove();
-      activeMissile = null;
-      canShoot = true;
+      missile.remove();
+      
+      // Marca este míssil como concluído
+      activeMissiles = activeMissiles.filter(m => m.element !== missile);
+      
+      // Verifica se ambos mísseis foram concluídos
+      checkMissilesCompletion();
     }
   }, 30);
+}
+
+// Verifica se ambos mísseis foram concluídos
+function checkMissilesCompletion() {
+  // Conta quantos mísseis de cada lado ainda estão ativos
+  const leftActive = activeMissiles.some(m => m.side === 'left');
+  const rightActive = activeMissiles.some(m => m.side === 'right');
+  
+  // Se não há mísseis ativos de nenhum lado, recarrega
+  if (!leftActive && !rightActive && !missileReloading) {
+    reloadMissiles();
+  }
+}
+
+// Recarrega os mísseis
+function reloadMissiles() {
+  missileReloading = true;
+  setTimeout(() => {
+    availableMissiles = 2;
+    leftMissile.style.display = 'block';
+    rightMissile.style.display = 'block';
+    missileReloading = false;
+  }, 1000);
 }
 
 // Cria os aliens
