@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
+  }
+  
+  body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+  }
+  
+  #game {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('background.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  #hud {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #0ff;
+    font-size: 20px;
+    text-shadow: 0 0 5px #0ff;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    border: 2px solid #0ff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #0ff, 
+                inset 0 0 10px rgba(0, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(3px);
+    width: 250px;
+  }
+  
+  #hud div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .hud-icon {
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0 0 3px #0ff);
+  }
+  
+  #ship-container {
+    position: absolute;
+    bottom: 50px;
+    width: 100px;
+    height: 120px;
+    z-index: 8;
+    transform: translateX(-50%); 
+  }
+  
+  #ship {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%); 
+  }
+  
+  .missile-fixed {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url('missil.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+    z-index: 9;
+    bottom: 20px;
+  }
+  
+  #left-missile {
+    left: 10px;
+    transform: rotate(0deg); 
+  }
+  
+  #right-missile {
+    right: 10px;
+    transform: rotate(0deg); 
+  }
+  
+  .missile {
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    background-image: url('missil.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 5;
+  }
+  
+  .alien {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background-image: url('alien.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; 
+    z-index: 5;
+    filter: drop-shadow(0 0 5px #f00);
+  }
+  
+  #pause-message, #game-over-message, #life-lost-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0ff;
+    font-size: 36px;
+    display: none;
+    z-index: 20;
+    text-align: center;
+    text-shadow: 0 0 10px #0ff;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px 40px;
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    backdrop-filter: blur(3px);
+  }
+  
+  #pause-message span, #game-over-message span, #life-lost-message span {
+    display: block;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  #game-over-message {
+    color: #f00;
+    text-shadow: 0 0 10px #f00;
+    border-color: #f00;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+  }
+  
+  #life-lost-message {
+    color: #ff0;
+    text-shadow: 0 0 10px #ff0;
+    border-color: #ff0;
+    box-shadow: 0 0 20px rgba(255, 255, 0, 0.7);
+  }
