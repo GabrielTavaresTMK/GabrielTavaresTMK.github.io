@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Árvore Genealógica - Gabriel</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2E7D32;
+    }
+
+    .tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .level {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .person {
+      background-color: #fff;
+      padding: 10px 15px;
+      border: 2px solid #4CAF50;
+      border-radius: 10px;
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      min-width: 150px;
+    }
+
+    .person small {
+      display: block;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+      .level {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Árvore Genealógica de Gabriel Tavares Brasil</h1>
+
+  <div class="tree">
+
+    <!-- Você -->
+    <div class="level">
+      <div class="person">Gabriel Tavares Brasil<br><small>Você</small></div>
+    </div>
+
+    <!-- Pais -->
+    <div class="level">
+      <div class="person">Luiz Alcebíades Brasil<br><small>Pai</small></div>
+      <div class="person">Simone Tavares<br><small>Mãe</small></div>
+    </div>
+
+    <!-- Avós -->
+    <div class="level">
+      <div class="person">Alcides Ferreira Brasil<br><small>Vô paterno</small></div>
+      <div class="person">Ana Lucia A. da Silva<br><small>Vó paterna</small></div>
+
+      <div class="person">Luiz Carlos Tavares<br><small>Vô materno</small></div>
+      <div class="person">Lourdes S. do Nascimento Tavares<br><small>Vó materna</small></div>
+    </div>
+
+    <!-- Bisavós -->
+    <div class="level">
+      <!-- Paternos -->
+      <div class="person">Alcebíades Ferreira Brasil<br><small>Bisavô paterno</small></div>
+      <div class="person">Liniria Gonçalves Brasil<br><small>Bisavó paterna</small></div>
+
+      <div class="person">Luiz da Silva<br><small>Bisavô paterno</small></div>
+      <div class="person">Durvalina A. da Silva<br><small>Bisavó paterna</small></div>
+
+      <!-- Maternos -->
+      <div class="person">José Pedro Tavares<br><small>Bisavô materno</small></div>
+      <div class="person">Erci da Silva Tavares<br><small>Bisavó materna</small></div>
+
+      <div class="person">Belmirio S. do Nascimento<br><small>Bisavô materno</small></div>
+      <div class="person">Genoveva Storki Nascimento<br><small>Bisavó materna</small></div>
+    </div>
+
+    <!-- Tataravós (lado materno - avô Luiz Carlos Tavares) -->
+    <div class="level">
+      <div class="person">Fernandes Martins da Silva<br><small>Tataravô materno</small></div>
+      <div class="person">Joana Diesel da Silva<br><small>Tataravó materna</small></div>
+      <div class="person">José Francisco Tavares<br><small>Tataravô materno</small></div>
+      <div class="person">Leopoldina Tavares<br><small>Tataravó materna</small></div>
+    </div>
+
+    <!-- Tios e Primos -->
+    <div class="level">
+      <div class="person">Luiz Gustavo Brasil<br><small>Tio paterno</small></div>
+      <div class="person">Adriana Tavares<br><small>Tia materna</small></div>
+      <div class="person">Márcio de Almeida Vieira<br><small>Tio materno</small></div>
+    </div>
+
+    <div class="level">
+      <div class="person">Camilla Tavares Vieira<br><small>Prima</small></div>
+      <div class="person">Ana Carolina T. Vieira<br><small>Prima</small></div>
+      <div class="person">Vitor Luiz T. Vieira<br><small>Primo</small></div>
+      <div class="person">Maria Tavares Vieira<br><small>Prima</small></div>
+      <div class="person">Juliana Tavares da Veiga<br><small>Prima (filha da Adriana)</small></div>
+    </div>
+
+  </div>
+
+</body>
+</html>
