@@ -7,97 +7,203 @@
   <style>
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #fefefe;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
       padding: 20px;
+      color: #333;
     }
 
     h1 {
       text-align: center;
       color: #2E7D32;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
     }
 
     .tree {
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%;
+      overflow-x: auto;
+      padding: 20px 0;
     }
 
     .generation {
       display: flex;
       justify-content: center;
-      align-items: flex-end;
-      gap: 20px;
       position: relative;
-      margin-bottom: 60px;
+      margin-bottom: 80px;
       flex-wrap: wrap;
+    }
+
+    .generation:last-child {
+      margin-bottom: 20px;
     }
 
     .person {
       background: #fff;
       border: 2px solid #4CAF50;
       border-radius: 8px;
-      padding: 10px;
-      width: 150px;
+      padding: 12px 8px;
+      width: 160px;
       text-align: center;
       font-size: 14px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
       position: relative;
+      margin: 0 10px;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+
+    .person:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
     .person.small {
-      width: 120px;
+      width: 140px;
       font-size: 13px;
     }
 
-    .connection-line {
-      width: 2px;
-      height: 30px;
-      background-color: #4CAF50;
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .horizontal-line {
-      height: 2px;
-      background-color: #4CAF50;
-      position: absolute;
-      top: 100%;
-    }
-
-    .pair {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
+    .person small {
+      display: block;
+      margin-top: 5px;
+      color: #666;
+      font-size: 12px;
     }
 
     .couple {
       display: flex;
-      justify-content: center;
-      gap: 10px;
       position: relative;
+      margin: 0 15px;
+    }
+
+    .couple .person {
+      margin: 0;
+    }
+
+    .couple::before {
+      content: "";
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      width: 2px;
+      height: 25px;
+      background-color: #4CAF50;
+      z-index: 0;
     }
 
     .couple::after {
       content: "";
       position: absolute;
-      top: 100%;
+      top: 50%;
+      left: 50%;
+      width: calc(100% + 10px);
+      height: 2px;
+      background-color: #4CAF50;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    .parents-connector {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      width: 2px;
+      height: 30px;
+      background-color: #4CAF50;
+      z-index: 0;
+    }
+
+    .children-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      position: relative;
+    }
+
+    .children-container::before {
+      content: "";
+      position: absolute;
+      top: -20px;
       left: 50%;
       width: 2px;
       height: 20px;
       background-color: #4CAF50;
     }
 
+    .child {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    .child::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background-color: #4CAF50;
+    }
+
+    .child:not(:first-child)::after {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: calc(50% - 15px);
+      width: 30px;
+      height: 2px;
+      background-color: #4CAF50;
+    }
+
+    .tataravos-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .tataravos-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 30px;
+    }
+
+    .tataravos-group .couple {
+      margin-bottom: 40px;
+    }
+
+    .tataravos-group .couple::before {
+      height: 20px;
+      top: -20px;
+    }
+
     @media (max-width: 768px) {
       .generation {
         flex-direction: column;
         align-items: center;
+        margin-bottom: 40px;
+      }
+      
+      .couple {
+        margin-bottom: 40px;
+      }
+      
+      .children-container {
+        margin-top: 20px;
+      }
+      
+      .tataravos-group {
+        margin-bottom: 30px;
       }
     }
   </style>
@@ -107,35 +213,42 @@
   <h1>Árvore Genealógica de Gabriel Tavares Brasil</h1>
   <div class="tree">
 
-    <!-- Tataravós (lado Luiz Carlos Tavares) -->
-    <div class="generation">
-      <div class="couple">
-        <div class="person">Fernandes Martins da Silva<br><small>Tataravô</small></div>
-        <div class="person">Joana Diesel da Silva<br><small>Tataravó</small></div>
+    <!-- Tataravós -->
+    <div class="tataravos-container">
+      <!-- Lado Brasil -->
+      <div class="tataravos-group">
+        <div class="couple">
+          <div class="person">Fernandes Martins da Silva<br><small>Tataravô</small></div>
+          <div class="person">Joana Diesel da Silva<br><small>Tataravó</small></div>
+        </div>
+        <div class="couple">
+          <div class="person">Alcebíades F. Brasil<br><small>Bisavô</small></div>
+          <div class="person">Liniria G. Brasil<br><small>Bisavó</small></div>
+        </div>
       </div>
-      <div class="couple">
-        <div class="person">José Francisco Tavares<br><small>Tataravô</small></div>
-        <div class="person">Leopoldina Tavares<br><small>Tataravó</small></div>
+      
+      <!-- Lado Tavares -->
+      <div class="tataravos-group">
+        <div class="couple">
+          <div class="person">José Francisco Tavares<br><small>Tataravô</small></div>
+          <div class="person">Leopoldina Tavares<br><small>Tataravó</small></div>
+        </div>
+        <div class="couple">
+          <div class="person">José Pedro Tavares<br><small>Bisavô</small></div>
+          <div class="person">Erci da Silva Tavares<br><small>Bisavó</small></div>
+        </div>
       </div>
-    </div>
-
-    <!-- Bisavós -->
-    <div class="generation">
-      <div class="couple">
-        <div class="person">Alcebíades F. Brasil<br><small>Bisavô</small></div>
-        <div class="person">Liniria G. Brasil<br><small>Bisavó</small></div>
-      </div>
-      <div class="couple">
-        <div class="person">Luiz da Silva<br><small>Bisavô</small></div>
-        <div class="person">Durvalina A. da Silva<br><small>Bisavó</small></div>
-      </div>
-      <div class="couple">
-        <div class="person">José Pedro Tavares<br><small>Bisavô</small></div>
-        <div class="person">Erci da Silva Tavares<br><small>Bisavó</small></div>
-      </div>
-      <div class="couple">
-        <div class="person">Belmirio S. Nascimento<br><small>Bisavô</small></div>
-        <div class="person">Genoveva Storki Nascimento<br><small>Bisavó</small></div>
+      
+      <!-- Lado Nascimento -->
+      <div class="tataravos-group">
+        <div class="couple">
+          <div class="person">Luiz da Silva<br><small>Bisavô</small></div>
+          <div class="person">Durvalina A. da Silva<br><small>Bisavó</small></div>
+        </div>
+        <div class="couple">
+          <div class="person">Belmirio S. Nascimento<br><small>Bisavô</small></div>
+          <div class="person">Genoveva Storki Nascimento<br><small>Bisavó</small></div>
+        </div>
       </div>
     </div>
 
@@ -145,19 +258,22 @@
         <div class="person">Alcides F. Brasil<br><small>Vô paterno</small></div>
         <div class="person">Ana Lucia A. da Silva<br><small>Vó paterna</small></div>
       </div>
+      
       <div class="couple">
         <div class="person">Luiz Carlos Tavares<br><small>Vô materno</small></div>
         <div class="person">Lourdes S. do Nascimento<br><small>Vó materna</small></div>
       </div>
     </div>
 
-    <!-- Pais + Tios + Adriana e Márcio -->
+    <!-- Pais + Tios -->
     <div class="generation">
       <div class="person">Luiz Gustavo Brasil<br><small>Tio paterno</small></div>
+      
       <div class="couple">
         <div class="person">Luiz Alcebíades Brasil<br><small>Pai</small></div>
         <div class="person">Simone Tavares<br><small>Mãe</small></div>
       </div>
+      
       <div class="couple">
         <div class="person">Adriana Tavares<br><small>Tia</small></div>
         <div class="person">Márcio de Almeida Vieira<br><small>Tio por afinidade</small></div>
@@ -165,17 +281,29 @@
     </div>
 
     <!-- Primos(as) -->
-    <div class="generation">
-      <div class="person small">Camilla Tavares Vieira<br><small>Prima</small></div>
-      <div class="person small">Ana Carolina Tavares Vieira<br><small>Prima</small></div>
-      <div class="person small">Vitor Luiz Tavares Vieira<br><small>Primo</small></div>
-      <div class="person small">Maria Tavares Vieira<br><small>Prima</small></div>
-      <div class="person small">Juliana Tavares da Veiga<br><small>Prima (pai desconhecido)</small></div>
+    <div class="children-container">
+      <div class="child">
+        <div class="person small">Camilla Tavares Vieira<br><small>Prima</small></div>
+      </div>
+      <div class="child">
+        <div class="person small">Ana Carolina Tavares Vieira<br><small>Prima</small></div>
+      </div>
+      <div class="child">
+        <div class="person small">Vitor Luiz Tavares Vieira<br><small>Primo</small></div>
+      </div>
+      <div class="child">
+        <div class="person small">Maria Tavares Vieira<br><small>Prima</small></div>
+      </div>
+      <div class="child">
+        <div class="person small">Juliana Tavares da Veiga<br><small>Prima</small></div>
+      </div>
     </div>
 
     <!-- Você -->
     <div class="generation">
-      <div class="person">Gabriel Tavares Brasil<br><small>Você</small></div>
+      <div class="person" style="background-color: #e8f5e9; border-color: #2E7D32; font-weight: bold;">
+        Gabriel Tavares Brasil<br><small>Você</small>
+      </div>
     </div>
 
   </div>
