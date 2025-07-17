@@ -2,7 +2,6 @@ google.charts.load('current', {'packages':['corechart', 'geochart']});
 google.charts.setOnLoadCallback(drawCharts);
 
 function drawCharts() {
-  // Dados do gráfico de barras
   const barData = google.visualization.arrayToDataTable([
     ['Bimestre', 'Frequência', { role: 'style' }],
     ['1º BIM', 89.5, 'color: black'],
@@ -17,7 +16,6 @@ function drawCharts() {
     hAxis: { minValue: 86,  maxValue: 91 }
   });
 
-  // Dados do gráfico de pizza
   const pieData = google.visualization.arrayToDataTable([
     ['Conceito', 'Quantidade'],
     ['A', 189],
@@ -32,7 +30,6 @@ function drawCharts() {
     is3D: true,
   });
 
-  // Dados do gráfico de mapa
   const mapData = google.visualization.arrayToDataTable([
     ['País', 'Frequência'],
     ['United States', 300],

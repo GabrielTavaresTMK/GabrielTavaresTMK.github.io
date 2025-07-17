@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Invaders</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game">
+    <div id="hud">
+      <div id="timer"><img src="clock.png" class="hud-icon"> <span id="timer-text">00:00:00</span></div>
+      <div id="life-container"><img src="nave.png" class="hud-icon"> LIFE: <span id="life">3</span></div>
+      <div id="alien-container"><img src="alien.png" class="hud-icon"> ALIEN: <span id="alien-counter">0</span></div>
+    </div>
+    
+    <div id="ship-container">
+      <img id="ship" src="nave.png" alt="Nave do jogador">
+      <div class="missile-fixed" id="left-missile"></div>
+      <div class="missile-fixed" id="right-missile"></div>
+    </div>
+    
+    <div id="pause-message">JOGO PAUSADO<span>Pressione P para continuar</span></div>
+    <div id="game-over-message">GAME OVER<span>Atualize a página para jogar novamente</span></div>
+    <div id="life-lost-message">VOCÊ PERDEU UMA VIDA<span>Pressione ESPAÇO para continuar</span></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
