@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Árvore Genealógica de Gabriel</title>
   <style>
     * {
@@ -13,12 +13,11 @@
       font-family: Arial, sans-serif;
       background: #fefefe;
       padding: 20px;
-      text-align: center;
     }
 
     h1 {
+      text-align: center;
       color: #2E7D32;
-      margin-bottom: 40px;
     }
 
     .tree {
@@ -30,9 +29,11 @@
     .generation {
       display: flex;
       justify-content: center;
+      align-items: flex-end;
       gap: 20px;
       position: relative;
       margin-bottom: 60px;
+      flex-wrap: wrap;
     }
 
     .person {
@@ -40,103 +41,143 @@
       border: 2px solid #4CAF50;
       border-radius: 8px;
       padding: 10px;
-      width: 130px;
+      width: 150px;
       text-align: center;
       font-size: 14px;
       box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
       position: relative;
     }
 
-    .line-down {
-      position: absolute;
-      width: 2px;
-      height: 30px;
-      background: #4CAF50;
-      left: 50%;
-      top: 100%;
-      transform: translateX(-50%);
+    .person.small {
+      width: 120px;
+      font-size: 13px;
     }
 
-    .line-up {
-      position: absolute;
+    .connection-line {
       width: 2px;
       height: 30px;
-      background: #4CAF50;
+      background-color: #4CAF50;
+      position: absolute;
+      top: 100%;
       left: 50%;
-      bottom: 100%;
       transform: translateX(-50%);
     }
 
     .horizontal-line {
-      position: absolute;
       height: 2px;
-      background: #4CAF50;
+      background-color: #4CAF50;
+      position: absolute;
       top: 100%;
-      left: 0;
-      right: 0;
-      margin-top: 30px;
     }
 
-    /* Responsivo */
+    .pair {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .couple {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .couple::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background-color: #4CAF50;
+    }
+
     @media (max-width: 768px) {
       .generation {
-        flex-wrap: wrap;
-        gap: 10px;
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
 </head>
 <body>
 
-  <h1>Árvore Genealógica de Gabriel</h1>
-
+  <h1>Árvore Genealógica de Gabriel Tavares Brasil</h1>
   <div class="tree">
 
-    <!-- Geração 1: Avós -->
+    <!-- Tataravós (lado Luiz Carlos Tavares) -->
     <div class="generation">
-      <div class="person">
-        Ana Lucia A. da Silva<br><small>Vó paterna</small>
-        <div class="line-down"></div>
+      <div class="couple">
+        <div class="person">Fernandes Martins da Silva<br><small>Tataravô</small></div>
+        <div class="person">Joana Diesel da Silva<br><small>Tataravó</small></div>
       </div>
-      <div class="person">
-        Alcides Ferreira Brasil<br><small>Vô paterno</small>
-        <div class="line-down"></div>
-      </div>
-      <div class="person">
-        Luiz Carlos Tavares<br><small>Vô materno</small>
-        <div class="line-down"></div>
-      </div>
-      <div class="person">
-        Lourdes S. do Nascimento<br><small>Vó materna</small>
-        <div class="line-down"></div>
+      <div class="couple">
+        <div class="person">José Francisco Tavares<br><small>Tataravô</small></div>
+        <div class="person">Leopoldina Tavares<br><small>Tataravó</small></div>
       </div>
     </div>
 
-    <!-- Geração 2: Tios e Pais -->
-    <div class="generation" style="margin-bottom: 80px;">
-      <div class="person">
-        Luiz Gustavo Brasil<br><small>Tio paterno</small>
-        <div class="line-down"></div>
+    <!-- Bisavós -->
+    <div class="generation">
+      <div class="couple">
+        <div class="person">Alcebíades F. Brasil<br><small>Bisavô</small></div>
+        <div class="person">Liniria G. Brasil<br><small>Bisavó</small></div>
       </div>
-      <div class="person">
-        Luiz Alcebíades Brasil<br><small>Pai</small>
-        <div class="line-down"></div>
+      <div class="couple">
+        <div class="person">Luiz da Silva<br><small>Bisavô</small></div>
+        <div class="person">Durvalina A. da Silva<br><small>Bisavó</small></div>
       </div>
-      <div class="person">
-        Simone Tavares<br><small>Mãe</small>
-        <div class="line-down"></div>
+      <div class="couple">
+        <div class="person">José Pedro Tavares<br><small>Bisavô</small></div>
+        <div class="person">Erci da Silva Tavares<br><small>Bisavó</small></div>
       </div>
-      <div class="person">
-        Adriana Tavares<br><small>Tia materna</small>
+      <div class="couple">
+        <div class="person">Belmirio S. Nascimento<br><small>Bisavô</small></div>
+        <div class="person">Genoveva Storki Nascimento<br><small>Bisavó</small></div>
       </div>
     </div>
 
-    <!-- Geração 3: Você -->
+    <!-- Avós -->
+    <div class="generation">
+      <div class="couple">
+        <div class="person">Alcides F. Brasil<br><small>Vô paterno</small></div>
+        <div class="person">Ana Lucia A. da Silva<br><small>Vó paterna</small></div>
+      </div>
+      <div class="couple">
+        <div class="person">Luiz Carlos Tavares<br><small>Vô materno</small></div>
+        <div class="person">Lourdes S. do Nascimento<br><small>Vó materna</small></div>
+      </div>
+    </div>
+
+    <!-- Pais + Tios + Adriana e Márcio -->
+    <div class="generation">
+      <div class="person">Luiz Gustavo Brasil<br><small>Tio paterno</small></div>
+      <div class="couple">
+        <div class="person">Luiz Alcebíades Brasil<br><small>Pai</small></div>
+        <div class="person">Simone Tavares<br><small>Mãe</small></div>
+      </div>
+      <div class="couple">
+        <div class="person">Adriana Tavares<br><small>Tia</small></div>
+        <div class="person">Márcio de Almeida Vieira<br><small>Tio por afinidade</small></div>
+      </div>
+    </div>
+
+    <!-- Primos(as) -->
+    <div class="generation">
+      <div class="person small">Camilla Tavares Vieira<br><small>Prima</small></div>
+      <div class="person small">Ana Carolina Tavares Vieira<br><small>Prima</small></div>
+      <div class="person small">Vitor Luiz Tavares Vieira<br><small>Primo</small></div>
+      <div class="person small">Maria Tavares Vieira<br><small>Prima</small></div>
+      <div class="person small">Juliana Tavares da Veiga<br><small>Prima (pai desconhecido)</small></div>
+    </div>
+
+    <!-- Você -->
     <div class="generation">
       <div class="person">Gabriel Tavares Brasil<br><small>Você</small></div>
     </div>
 
   </div>
-
 </body>
 </html>
