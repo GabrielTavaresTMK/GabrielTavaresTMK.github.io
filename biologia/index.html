@@ -1,175 +1,140 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Árvore Genealógica</title>
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-  }
-  .tree {
-    width: 900px;
-    margin: 50px auto;
-    font-family: Arial, Verdana, Tahoma, sans-serif;
-  }
-  .tree ul {
-    padding-top: 20px;
-    position: relative;
-    transition: all 0.5s;
-  }
-  .tree li {
-    float: left;
-    text-align: center;
-    list-style-type: none;
-    position: relative;
-    padding: 20px 5px 0 5px;
-    transition: all 0.5s;
-    min-width: 130px;
-  }
-  /* Linha horizontal superior */
-  .tree li::before,
-  .tree li::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 50%;
-    border-top: 1px solid #ccc;
-    width: 50%;
-    height: 20px;
-  }
-  .tree li::after {
-    right: auto;
-    left: 50%;
-    border-left: 1px solid #ccc;
-  }
-  /* Remover linhas quando só tem um filho */
-  .tree li:only-child::after,
-  .tree li:only-child::before {
-    display: none;
-  }
-  /* Ajuste de padding quando só tem um filho */
-  .tree li:only-child {
-    padding-top: 0;
-  }
-  /* Bordas arredondadas nas extremidades */
-  .tree li:first-child::before,
-  .tree li:last-child::after {
-    border: 0 none;
-  }
-  .tree li:last-child::before {
-    border-right: 1px solid #ccc;
-    border-radius: 0 5px 0 0;
-  }
-  .tree li:first-child::after {
-    border-radius: 5px 0 0 0;
-  }
-  /* Linha vertical ligando a geração abaixo */
-  .tree ul ul::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    border-left: 1px solid #ccc;
-    width: 0;
-    height: 20px;
-  }
-  /* Estilo dos links das pessoas */
-  .tree li a {
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    text-decoration: none;
-    color: #333;
-    font-size: 13px;
-    display: inline-block;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    transition: all 0.3s ease;
-  }
-  .tree li a:hover,
-  .tree li a:hover + ul li a {
-    background: #c8e4f8;
-    color: #000;
-    border-color: #94a0b4;
-  }
-  /* Para mostrar "marido"/"esposa" em itálico e menor */
-  .spouse {
-    font-style: italic;
-    font-size: 12px;
-    color: #666;
-    margin-top: 4px;
-  }
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Arvore Genealogica</title>
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+.tree {
+  width: 900px;
+  margin: 50px auto;
+}
+.tree ul {
+  padding-top: 20px;
+  position: relative;
+  transition: all 0.5s;
+}
+.tree li {
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 20px 5px 0 5px;
+  transition: all 0.5s;
+}
+.tree li::before,
+.tree li::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 1px solid #ccc;
+  width: 50%;
+  height: 20px;
+}
+.tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 1px solid #ccc;
+}
+.tree li:only-child::after,
+.tree li:only-child::before {
+  display: none;
+}
+.tree li:only-child {
+  padding-top: 0;
+}
+.tree li:first-child::before,
+.tree li:last-child::after {
+  border: 0 none;
+}
+.tree li:last-child::before {
+  border-right: 1px solid #ccc;
+  border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after {
+  border-radius: 5px 0 0 0;
+}
+.tree ul ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px solid #ccc;
+  width: 0;
+  height: 20px;
+}
+.tree li a {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #666;
+  font-family: arial, verdana, tahoma;
+  font-size: 11px;
+  display: inline-block;
+  border-radius: 5px;
+  transition: all 0.5s;
+}
+.tree li a:hover,
+.tree li a:hover + ul li a {
+  background: #c8e4f8;
+  color: #000;
+  border: 1px solid #94a0b4;
+}
+.tree li a:hover + ul li::after,
+.tree li a:hover + ul li::before,
+.tree li a:hover + ul::before,
+.tree li a:hover + ul ul::before {
+  border-color: #94a0b4;
+}
 </style>
-</head>
-<body>
-
-<div class="tree">
-  <ul>
-    <!-- Avós paternos e maternos -->
-    <li>
-      <a href="#">Avô Paterno</a>
+  </head>
+  <body>
+    <div class="tree">
       <ul>
         <li>
-          <a href="#">Pai</a>
+          <a href="#">Parent</a>
           <ul>
             <li>
-              <a href="#">Filho (Você)</a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">Tio Paterno</a>
-          <ul>
-            <li>
-              <a href="#">Esposa do Tio Paterno</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li>
-      <a href="#">Avó Paterna</a>
-    </li>
-
-    <li>
-      <a href="#">Avô Materno</a>
-      <ul>
-        <li>
-          <a href="#">Mãe</a>
-          <ul>
-            <li>
-              <a href="#">Tia Materna</a>
-              <div class="spouse">Marido da Tia Materna</div>
+              <a href="#">Child</a>
               <ul>
                 <li>
-                  <a href="#">Filho (Pai desconhecido)</a>
+                  <a href="#">Grand Child</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Child</a>
+              <ul>
+                <li>
+                  <a href="#">Grand Child</a>
                 </li>
                 <li>
-                  <a href="#">Padrinho</a>
+                  <a href="#">Grand Child</a>
                   <ul>
-                    <li><a href="#">Filho 1</a></li>
-                    <li><a href="#">Filho 2</a></li>
-                    <li><a href="#">Filho 3</a></li>
-                    <li><a href="#">Filho 4</a></li>
-                    <li><a href="#">Filho 5</a></li>
+                    <li>
+                      <a href="#">Great Grand Child</a>
+                    </li>
+                    <li>
+                      <a href="#">Great Grand Child</a>
+                    </li>
+                    <li>
+                      <a href="#">Great Grand Child</a>
+                    </li>
                   </ul>
+                </li>
+                <li>
+                  <a href="#">Grand Child</a>
                 </li>
               </ul>
             </li>
           </ul>
         </li>
-      </ul>
-    </li>
-    <li>
-      <a href="#">Avó Materna</a>
-    </li>
-  </ul>
-</div>
-
-</body>
-</html>
-
       </ul>
     </div>
   </body>
