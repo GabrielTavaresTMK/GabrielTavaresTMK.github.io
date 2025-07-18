@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Árvore Genealógica Vertical</title>
+<title>Árvore Genealógica com Gerações</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -16,15 +16,13 @@
     flex-direction: column;
     align-items: center;
   }
-
-  /* Cada camada (geração) */
   .generation {
     display: flex;
     justify-content: center;
     gap: 40px;
     margin: 20px 0;
+    flex-wrap: wrap;
   }
-
   .person {
     border: 2px solid #333;
     border-radius: 8px;
@@ -34,7 +32,6 @@
     text-align: center;
     position: relative;
   }
-
   /* Linha vertical que conecta uma pessoa à geração abaixo */
   .person::after {
     content: "";
@@ -46,38 +43,15 @@
     height: 20px;
     background-color: #333;
   }
-
-  /* Remover linha vertical para quem não tem filhos */
   .no-children::after {
     content: none;
   }
-
-  /* Linha horizontal entre gerações */
   .connector {
     width: 100%;
     height: 2px;
     background-color: #333;
     margin: 0 auto;
-    position: relative;
   }
-
-  /* Linha horizontal entre filhos */
-  .children-line {
-    display: flex;
-    justify-content: center;
-    margin-top: -10px;
-    gap: 40px;
-  }
-
-  /* Conector vertical entre pai/mãe e filhos */
-  .vertical-line {
-    width: 2px;
-    height: 20px;
-    background-color: #333;
-    margin: 0 auto;
-  }
-
-  /* Para casamento / relacionamento */
   .marriage {
     font-style: italic;
     color: #666;
@@ -88,6 +62,7 @@
 <body>
 
 <div class="tree">
+
   <!-- Geração 1 - Avós paternos e maternos -->
   <div class="generation">
     <div class="person no-children">Avô Paterno</div>
@@ -95,42 +70,36 @@
     <div class="person no-children">Avô Materno</div>
     <div class="person no-children">Avó Materna</div>
   </div>
-
   <div class="connector"></div>
 
-  <!-- Geração 2 - Pai, Mãe, Tio paterno, Tia materna -->
+  <!-- Geração 2 - Pais, tios e tias + maridos/esposas -->
   <div class="generation">
     <div class="person">Pai</div>
     <div class="person">Mãe</div>
-    <div class="person no-children">Tio Paterno</div>
-    <div class="person">
-      Tia Materna
+    <div>
+      <div class="person no-children">Tio Paterno</div>
+      <div class="marriage">Esposa do Tio Paterno</div>
+    </div>
+    <div>
+      <div class="person">Tia Materna</div>
       <div class="marriage">Marido da Tia Materna</div>
     </div>
   </div>
-
   <div class="connector"></div>
 
-  <!-- Geração 3 - Filho (você) e primos (filhos da tia materna) -->
-
+  <!-- Geração 3 - Você + primos (filhos dos tios/as) -->
   <div class="generation">
     <div class="person no-children">Filho (Você)</div>
 
-    <!-- Primo com pai desconhecido -->
     <div class="person no-children">Filho (Pai desconhecido)</div>
 
-    <!-- Padrinho e filhos -->
-    <div>
-      <div class="person no-children">Padrinho</div>
-      <div class="generation" style="margin-top:10px; justify-content: center; gap: 20px;">
-        <div class="person no-children">Filho 1</div>
-        <div class="person no-children">Filho 2</div>
-        <div class="person no-children">Filho 3</div>
-        <div class="person no-children">Filho 4</div>
-        <div class="person no-children">Filho 5</div>
-      </div>
-    </div>
+    <div class="person no-children">Filho 1 (Padrinho)</div>
+    <div class="person no-children">Filho 2 (Padrinho)</div>
+    <div class="person no-children">Filho 3 (Padrinho)</div>
+    <div class="person no-children">Filho 4 (Padrinho)</div>
+    <div class="person no-children">Filho 5 (Padrinho)</div>
   </div>
+
 </div>
 
 </body>
