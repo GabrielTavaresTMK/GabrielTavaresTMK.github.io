@@ -1,233 +1,130 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Árvore Genealógica - Gabriel</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Arial', sans-serif;
-      background: #f5f5f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    .tree-container {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      padding: 30px;
-      max-width: 800px;
-      width: 100%;
-    }
-
-    h1 {
-      text-align: center;
-      color: #2E7D32;
-      margin-bottom: 30px;
-    }
-
-    .tree {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-    .generation {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 60px;
-      position: relative;
-    }
-
-    .person {
-      background: white;
-      border: 2px solid #4CAF50;
-      border-radius: 8px;
-      padding: 12px;
-      width: 160px;
-      text-align: center;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-      position: relative;
-      margin: 0 15px;
-      z-index: 2;
-    }
-
-    .person small {
-      display: block;
-      margin-top: 5px;
-      color: #666;
-      font-size: 12px;
-    }
-
-    .couple {
-      display: flex;
-      position: relative;
-    }
-
-    .couple::before {
-      content: "";
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      width: 2px;
-      height: 30px;
-      background: #4CAF50;
-    }
-
-    .couple::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: calc(100% + 10px);
-      height: 2px;
-      background: #4CAF50;
-      transform: translate(-50%, -50%);
-    }
-
-    .parents {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 60px;
-    }
-
-    .parents::before {
-      content: "";
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      width: 2px;
-      height: 30px;
-      background: #4CAF50;
-    }
-
-    .child-connector {
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      width: 2px;
-      height: 30px;
-      background: #4CAF50;
-    }
-
-    .you {
-      background: #e8f5e9;
-      border-color: #2E7D32;
-      font-weight: bold;
-    }
-
-    @media (max-width: 600px) {
-      .generation {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .couple {
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 40px;
-      }
-      
-      .couple::after {
-        width: 2px;
-        height: 20px;
-        top: 100%;
-        left: 50%;
-        transform: translate(-50%, 0);
-      }
-      
-      .person {
-        margin: 5px 0;
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Árvore Genealógica</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  .tree {
+    display: flex;
+    justify-content: center;
+  }
+  .tree ul {
+    padding-top: 20px;
+    position: relative;
+    padding-left: 0;
+    list-style-type: none;
+  }
+  .tree li {
+    text-align: center;
+    position: relative;
+    padding: 20px 5px 0 5px;
+  }
+  /* Conectores horizontais */
+  .tree li::before, .tree li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 2px solid #000;
+    width: 50%;
+    height: 20px;
+  }
+  .tree li::after {
+    right: auto;
+    left: 50%;
+    border-left: 2px solid #000;
+  }
+  /* Remove linhas nos filhos únicos */
+  .tree li:only-child::before, .tree li:only-child::after {
+    content: none;
+  }
+  /* Linha vertical que conecta pai ao filho */
+  .tree li > ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 2px solid #000;
+    width: 0;
+    height: 20px;
+  }
+  .person {
+    border: 2px solid #000;
+    padding: 8px 12px;
+    display: inline-block;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    min-width: 120px;
+  }
+  .marriage {
+    margin-top: 10px;
+    font-style: italic;
+    color: #555;
+  }
+</style>
 </head>
 <body>
-  <div class="tree-container">
-    <h1>Minha Árvore Genealógica</h1>
-    
-    <div class="tree">
-      <!-- Avós Paternos -->
-      <div class="generation">
-        <div class="couple">
-          <div class="person">
-            Alcides F. Brasil<br>
-            <small>Avô paterno</small>
-            <div class="child-connector"></div>
-          </div>
-          <div class="person">
-            Ana Lucia A. da Silva<br>
-            <small>Avó paterna</small>
-            <div class="child-connector"></div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Pai -->
-      <div class="generation">
-        <div class="person">
-          Luiz Alcebíades Brasil<br>
-          <small>Pai</small>
-          <div class="child-connector"></div>
-        </div>
-      </div>
-      
-      <!-- Avós Maternos -->
-      <div class="generation" style="margin-top: 60px;">
-        <div class="couple">
-          <div class="person">
-            Luiz Carlos Tavares<br>
-            <small>Avô materno</small>
-            <div class="child-connector"></div>
-          </div>
-          <div class="person">
-            Lourdes S. do Nascimento<br>
-            <small>Avó materna</small>
-            <div class="child-connector"></div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Mãe -->
-      <div class="generation">
-        <div class="person">
-          Simone Tavares<br>
-          <small>Mãe</small>
-          <div class="child-connector"></div>
-        </div>
-      </div>
-      
-      <!-- Seus Pais -->
-      <div class="parents">
-        <div class="couple">
-          <div class="person">
-            Luiz Alcebíades Brasil<br>
-            <small>Pai</small>
-          </div>
-          <div class="person">
-            Simone Tavares<br>
-            <small>Mãe</small>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Você -->
-      <div class="person you">
-        Gabriel Tavares Brasil<br>
-        <small>Você</small>
-      </div>
-    </div>
-  </div>
+
+<h2>Árvore Genealógica</h2>
+<div class="tree">
+  <ul>
+    <!-- Avós Paternos e Maternos -->
+    <li>
+      <div class="person">Avô Paterno</div>
+      <div class="person">Avó Paterna</div>
+      <ul>
+        <li>
+          <div class="person">Pai</div>
+          <ul>
+            <li>
+              <div class="person">Filho (Você)</div>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <div class="person">Tio Paterno</div>
+        </li>
+      </ul>
+    </li>
+
+    <li>
+      <div class="person">Avô Materno</div>
+      <div class="person">Avó Materna</div>
+      <ul>
+        <li>
+          <div class="person">Mãe</div>
+          <ul>
+            <li>
+              <div class="person">Tia Materna</div>
+              <div class="marriage">Marido da Tia Materna</div>
+              <ul>
+                <li>
+                  <div class="person">Filho (Pai desconhecido)</div>
+                </li>
+                <li>
+                  <div class="person">Padrinho</div>
+                  <ul>
+                    <li><div class="person">Filho 1</div></li>
+                    <li><div class="person">Filho 2</div></li>
+                    <li><div class="person">Filho 3</div></li>
+                    <li><div class="person">Filho 4</div></li>
+                    <li><div class="person">Filho 5</div></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
 </body>
 </html>
+
