@@ -1,141 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Arvore Genealogica</title>
+    <title>Árvore Genealógica de Gabriel</title>
     <style>
-* {
-  margin: 0;
-  padding: 0;
-}
-.tree {
-  width: 900px;
-  margin: 50px auto;
-}
-.tree ul {
-  padding-top: 20px;
-  position: relative;
-  transition: all 0.5s;
-}
-.tree li {
-  float: left;
-  text-align: center;
-  list-style-type: none;
-  position: relative;
-  padding: 20px 5px 0 5px;
-  transition: all 0.5s;
-}
-.tree li::before,
-.tree li::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 50%;
-  border-top: 1px solid #ccc;
-  width: 50%;
-  height: 20px;
-}
-.tree li::after {
-  right: auto;
-  left: 50%;
-  border-left: 1px solid #ccc;
-}
-.tree li:only-child::after,
-.tree li:only-child::before {
-  display: none;
-}
-.tree li:only-child {
-  padding-top: 0;
-}
-.tree li:first-child::before,
-.tree li:last-child::after {
-  border: 0 none;
-}
-.tree li:last-child::before {
-  border-right: 1px solid #ccc;
-  border-radius: 0 5px 0 0;
-}
-.tree li:first-child::after {
-  border-radius: 5px 0 0 0;
-}
-.tree ul ul::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  border-left: 1px solid #ccc;
-  width: 0;
-  height: 20px;
-}
-.tree li a {
-  border: 1px solid #ccc;
-  padding: 5px 10px;
-  text-decoration: none;
-  color: #666;
-  font-family: arial, verdana, tahoma;
-  font-size: 11px;
-  display: inline-block;
-  border-radius: 5px;
-  transition: all 0.5s;
-}
-.tree li a:hover,
-.tree li a:hover + ul li a {
-  background: #c8e4f8;
-  color: #000;
-  border: 1px solid #94a0b4;
-}
-.tree li a:hover + ul li::after,
-.tree li a:hover + ul li::before,
-.tree li a:hover + ul::before,
-.tree li a:hover + ul ul::before {
-  border-color: #94a0b4;
-}
-</style>
-  </head>
-  <body>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .tree {
+            width: 100%;
+            max-width: 900px;
+            margin: 50px auto;
+            overflow-x: auto;
+        }
+        .tree ul {
+            padding-top: 20px;
+            position: relative;
+            transition: all 0.5s;
+        }
+        .tree li {
+            float: left;
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 10px 0 10px;
+            transition: all 0.5s;
+        }
+        .tree li::before, .tree li::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 50%;
+            border-top: 2px solid #4CAF50;
+            width: 50%;
+            height: 20px;
+        }
+        .tree li::after {
+            right: auto;
+            left: 50%;
+            border-left: 2px solid #4CAF50;
+        }
+        .tree li:only-child::after, .tree li:only-child::before {
+            display: none;
+        }
+        .tree li:only-child {
+            padding-top: 0;
+        }
+        .tree li:first-child::before, .tree li:last-child::after {
+            border: 0 none;
+        }
+        .tree li:last-child::before {
+            border-right: 2px solid #4CAF50;
+            border-radius: 0 5px 0 0;
+        }
+        .tree li:first-child::after {
+            border-radius: 5px 0 0 0;
+        }
+        .tree ul ul::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 50%;
+            border-left: 2px solid #4CAF50;
+            width: 0;
+            height: 20px;
+        }
+        .tree li div {
+            border: 2px solid #4CAF50;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            display: inline-block;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+        .tree li div:hover {
+            background: #f0fff0;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .tree li div.highlight {
+            background: #e8f5e9;
+            font-weight: bold;
+            border-color: #2E7D32;
+        }
+        .tree li div small {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        @media (max-width: 600px) {
+            .tree li {
+                float: none;
+                display: block;
+                padding: 10px 0 0 0;
+            }
+            .tree li::before, .tree li::after {
+                display: none;
+            }
+            .tree ul ul::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
     <div class="tree">
-      <ul>
-        <li>
-          <a href="#">Parent</a>
-          <ul>
+        <ul>
+            <!-- Avós Paternos -->
             <li>
-              <a href="#">Child</a>
-              <ul>
-                <li>
-                  <a href="#">Grand Child</a>
-                </li>
-              </ul>
+                <div>
+                    Alcides F. Brasil<br>
+                    <small>Avô paterno</small>
+                </div>
+                <ul>
+                    <li>
+                        <div>
+                            Luiz Alcebíades Brasil<br>
+                            <small>Pai</small>
+                        </div>
+                        <ul>
+                            <!-- Pais (casal) -->
+                            <li>
+                                <div>
+                                    Luiz Alcebíades Brasil<br>
+                                    <small>Pai</small>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="highlight">
+                                            Gabriel Tavares Brasil<br>
+                                            <small>Você</small>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </li>
+            
+            <!-- Avós Maternos -->
             <li>
-              <a href="#">Child</a>
-              <ul>
-                <li>
-                  <a href="#">Grand Child</a>
-                </li>
-                <li>
-                  <a href="#">Grand Child</a>
-                  <ul>
+                <div>
+                    Luiz Carlos Tavares<br>
+                    <small>Avô materno</small>
+                </div>
+                <ul>
                     <li>
-                      <a href="#">Great Grand Child</a>
+                        <div>
+                            Simone Tavares<br>
+                            <small>Mãe</small>
+                        </div>
+                        <ul>
+                            <!-- Mãe conectada a você -->
+                            <li>
+                                <div>
+                                    Simone Tavares<br>
+                                    <small>Mãe</small>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="highlight">
+                                            Gabriel Tavares Brasil<br>
+                                            <small>Você</small>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                      <a href="#">Great Grand Child</a>
-                    </li>
-                    <li>
-                      <a href="#">Great Grand Child</a>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a href="#">Grand Child</a>
-                </li>
-              </ul>
+                </ul>
             </li>
-          </ul>
-        </li>
-      </ul>
+        </ul>
     </div>
-  </body>
+</body>
 </html>
