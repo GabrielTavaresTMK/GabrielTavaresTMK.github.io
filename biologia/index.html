@@ -1,187 +1,141 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Árvore Genealógica com Conectores</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  .tree {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .generation {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    margin: 20px 0;
-  }
-
-  .person {
-    border: 2px solid #333;
-    border-radius: 8px;
-    padding: 10px 15px;
-    background-color: #f5f5f5;
-    min-width: 130px;
-    text-align: center;
-    position: relative;
-  }
-
-  /* Linha vertical conectando para baixo */
-  .person::after {
-    content: "";
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 20px;
-    background-color: #333;
-  }
-
-  .no-children::after {
-    content: none;
-  }
-
-  /* Linha horizontal conectando duas pessoas (ex: mãe e pai) */
-  .horizontal-connector {
-    height: 2px;
-    background-color: #333;
-    position: relative;
-    top: 10px;
-    width: 80px;
-    margin: 0 auto;
-  }
-
-  /* Container para pai e mãe juntos */
-  .parents {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .parents-row {
-    display: flex;
-    gap: 40px;
-    position: relative;
-  }
-
-  /* Linha horizontal entre pai e mãe */
-  .parents-row::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: #333;
-    z-index: -1;
-  }
-
-  /* Liga pai/mãe à criança */
-  .parents::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 2px;
-    height: 20px;
-    background-color: #333;
-    transform: translateX(-50%);
-    z-index: -1;
-  }
-
-  /* Linha vertical ligando primos à tia */
-  .primos-connector {
-    width: 2px;
-    height: 20px;
-    background-color: #333;
-    margin: 0 auto 10px;
-  }
-
-  /* Container dos primos alinhados */
-  .primos {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-  }
-
-  /* Para os relacionamentos da tia */
-  .marriage {
-    font-style: italic;
-    color: #666;
-    margin-top: 5px;
-  }
-
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Tạo cây gia phả (Family Tree) bằng CSS3</title>
+    <style>
+* {
+  margin: 0;
+  padding: 0;
+}
+.tree {
+  width: 900px;
+  margin: 50px auto;
+}
+.tree ul {
+  padding-top: 20px;
+  position: relative;
+  transition: all 0.5s;
+}
+.tree li {
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 20px 5px 0 5px;
+  transition: all 0.5s;
+}
+.tree li::before,
+.tree li::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 1px solid #ccc;
+  width: 50%;
+  height: 20px;
+}
+.tree li::after {
+  right: auto;
+  left: 50%;
+  border-left: 1px solid #ccc;
+}
+.tree li:only-child::after,
+.tree li:only-child::before {
+  display: none;
+}
+.tree li:only-child {
+  padding-top: 0;
+}
+.tree li:first-child::before,
+.tree li:last-child::after {
+  border: 0 none;
+}
+.tree li:last-child::before {
+  border-right: 1px solid #ccc;
+  border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after {
+  border-radius: 5px 0 0 0;
+}
+.tree ul ul::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 1px solid #ccc;
+  width: 0;
+  height: 20px;
+}
+.tree li a {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: #666;
+  font-family: arial, verdana, tahoma;
+  font-size: 11px;
+  display: inline-block;
+  border-radius: 5px;
+  transition: all 0.5s;
+}
+.tree li a:hover,
+.tree li a:hover + ul li a {
+  background: #c8e4f8;
+  color: #000;
+  border: 1px solid #94a0b4;
+}
+.tree li a:hover + ul li::after,
+.tree li a:hover + ul li::before,
+.tree li a:hover + ul::before,
+.tree li a:hover + ul ul::before {
+  border-color: #94a0b4;
+}
 </style>
-</head>
-<body>
-
-<div class="tree">
-
-  <!-- Geração 1 - Avós -->
-  <div class="generation">
-    <div class="person no-children">Avô Paterno</div>
-    <div class="person no-children">Avó Paterna</div>
-    <div class="person no-children">Avô Materno</div>
-    <div class="person no-children">Avó Materna</div>
-  </div>
-
-  <div class="generation" style="gap:80px; margin-top: 40px;">
-    <!-- Pais, Tios e Tias -->
-
-    <div class="parents">
-      <!-- Pai e Mãe juntos -->
-      <div class="parents-row">
-        <div class="person no-children">Pai</div>
-        <div class="person no-children">Mãe</div>
-      </div>
+  </head>
+  <body>
+    <div class="tree">
+      <ul>
+        <li>
+          <a href="#">Parent</a>
+          <ul>
+            <li>
+              <a href="#">Child</a>
+              <ul>
+                <li>
+                  <a href="#">Grand Child</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Child</a>
+              <ul>
+                <li>
+                  <a href="#">Grand Child</a>
+                </li>
+                <li>
+                  <a href="#">Grand Child</a>
+                  <ul>
+                    <li>
+                      <a href="#">Great Grand Child</a>
+                    </li>
+                    <li>
+                      <a href="#">Great Grand Child</a>
+                    </li>
+                    <li>
+                      <a href="#">Great Grand Child</a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a href="#">Grand Child</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
     </div>
-
-    <div>
-      <div class="person no-children">Tio Paterno</div>
-      <div class="marriage">Esposa do Tio Paterno</div>
-    </div>
-
-    <div>
-      <div class="person no-children">Tia Materna</div>
-      <div class="marriage">Marido da Tia Materna</div>
-    </div>
-  </div>
-
-  <!-- Linha ligando pai e mãe ao filho -->
-  <div style="width: 150px; margin-top: -10px; margin-bottom: 30px;">
-    <div class="horizontal-connector"></div>
-    <div class="primos-connector"></div>
-  </div>
-
-  <!-- Você (filho) -->
-  <div class="generation">
-    <div class="person no-children">Filho (Você)</div>
-  </div>
-
-  <!-- Primos (filhos da tia materna) -->
-  <div class="primos-connector"></div>
-
-  <div class="generation primos" style="margin-top: 0;">
-    <div class="person no-children">Filho (Pai desconhecido)</div>
-
-    <div class="person no-children">Filho 1 (Padrinho)</div>
-    <div class="person no-children">Filho 2 (Padrinho)</div>
-    <div class="person no-children">Filho 3 (Padrinho)</div>
-    <div class="person no-children">Filho 4 (Padrinho)</div>
-    <div class="person no-children">Filho 5 (Padrinho)</div>
-  </div>
-
-</div>
-
-</body>
+  </body>
 </html>
